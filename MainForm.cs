@@ -702,12 +702,14 @@ namespace Beinet.cn.HostsManager
         /// <param name="e"></param>
         private void dataGridView1_CellMouseEnter(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.RowIndex < dataGridView1.Rows.Count - 1 && e.RowIndex >= 0 && lastRowIndex != e.RowIndex)
+            var cnt = dataGridView1.Rows.Count - 1;
+            var currRow = e.RowIndex;
+            if (currRow < cnt && currRow >= 0 && lastRowIndex != currRow)
             {
-                if (lastRowIndex > -1)
+                if (lastRowIndex > -1 && lastRowIndex < cnt)
                     SetBackColor(dataGridView1.Rows[lastRowIndex], false);
-                SetBackColor(dataGridView1.Rows[e.RowIndex], true);
-                lastRowIndex = e.RowIndex;
+                SetBackColor(dataGridView1.Rows[currRow], true);
+                lastRowIndex = currRow;
             }
         }
 
