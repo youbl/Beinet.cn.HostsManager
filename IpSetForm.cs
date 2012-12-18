@@ -44,6 +44,18 @@ namespace Beinet.cn.HostsManager
 
             this.main = main;
         }
+        protected override void OnLoad(EventArgs e)
+        {
+            base.OnLoad(e);
+
+            if (Owner != null)
+            {
+                Left = Owner.Left + 20;
+                Top = Owner.Top + 20;
+                if (Top < 0)
+                    Top = 0;
+            }
+        }
 
         private void IpSetForm_FormClosed(object sender, FormClosedEventArgs e)
         {

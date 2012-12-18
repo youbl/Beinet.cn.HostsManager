@@ -32,6 +32,18 @@ namespace Beinet.cn.HostsManager
             txtUnicomDns.Text = HostsDal.UnicomDns;
             txtTelecomDns.Text = HostsDal.TelecomDns;
         }
+        protected override void OnLoad(EventArgs e)
+        {
+            base.OnLoad(e);
+
+            if (Owner != null)
+            {
+                Left = Owner.Left + 20;
+                Top = Owner.Top + 20;
+                if (Top < 0)
+                    Top = 0;
+            }
+        }
 
         private void btnCanel_Click(object sender, EventArgs e)
         {

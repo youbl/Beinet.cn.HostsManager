@@ -51,6 +51,19 @@ Windows Registry Editor Version 5.00
             this.labTitle.Text = "Hosts修改工具" + MainForm.version + "-beinet.cn";
         }
 
+        protected override void OnLoad(EventArgs e)
+        {
+            base.OnLoad(e);
+
+            if (Owner != null)
+            {
+                Left = Owner.Left + 20;
+                Top = Owner.Top + 20;
+                if (Top < 0)
+                    Top = 0;
+            }
+        }
+
         private void btnCanel_Click(object sender, EventArgs e)
         {
             this.Close();

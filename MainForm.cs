@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
@@ -109,7 +107,7 @@ namespace Beinet.cn.HostsManager
                 mnuTopMost_Click(null, null);
             }
 
-            ///todo:检查更新的代码启用
+            //检查更新的代码启用
             //CheckUpdate();
         }
 
@@ -1067,7 +1065,10 @@ namespace Beinet.cn.HostsManager
         /// <param name="e"></param>
         private void txtFindStripTextBox1_Click(object sender, EventArgs e)
         {
-            txtFindStripTextBox1_KeyUp(null, null);
+            if (txtFindStripTextBox1.Text == "请输入查找关键字")
+                txtFindStripTextBox1.SelectAll();
+            else
+                txtFindStripTextBox1_KeyUp(null, null);
         }
 
         /// <summary>
@@ -1456,7 +1457,7 @@ namespace Beinet.cn.HostsManager
             if (lab.InvokeRequired)
             {
                 OperationLabel method = OperationLabelMethod;
-                if(this != null)// 点保存，然后马上关闭窗体时，会导致this变成null了，所以这里要判断
+                if(!this.IsDisposed)// 点保存，然后马上关闭窗体时，会导致this变成null了，所以这里要判断
                     Invoke(method, lab, txt);
             }
             else
@@ -1482,21 +1483,6 @@ namespace Beinet.cn.HostsManager
             _forceVisible = true;
         }
 
-
-        /// <summary>
-        /// 根据控件，查找它的父控件类型为T的控件返回
-        /// </summary>
-        /// <param name="control"></param>
-        /// <returns></returns>
-        T GetControl<T>(Control control) where T : Control
-        {
-            if (control == null)
-                return null;
-
-            if (control is T)
-                return (T)control;
-            return GetControl<T>(control.Parent);
-        }
 
         void CheckUpdate()
         {
@@ -1564,52 +1550,52 @@ namespace Beinet.cn.HostsManager
 
 
 
-        /// <summary>
-        /// 在指定单元格内查找单词，并设置为红色
-        /// 未找到时，设置为黑色
-        /// </summary>
-        /// <param name="cell"></param>
-        /// <param name="search"></param>
-        /// <param name="use"></param>
-        /// <param name="flg"></param>
-        void FindWord(DataGridViewCell cell, string search, bool use, int flg)
-        {
-            if (string.IsNullOrEmpty(search))
-            {
-                cell.Style.ForeColor = Color.Black;
-                return;
-            }
+        ///// <summary>
+        ///// 在指定单元格内查找单词，并设置为红色
+        ///// 未找到时，设置为黑色
+        ///// </summary>
+        ///// <param name="cell"></param>
+        ///// <param name="search"></param>
+        ///// <param name="use"></param>
+        ///// <param name="flg"></param>
+        //void FindWord(DataGridViewCell cell, string search, bool use, int flg)
+        //{
+        //    if (string.IsNullOrEmpty(search))
+        //    {
+        //        cell.Style.ForeColor = Color.Black;
+        //        return;
+        //    }
 
-            switch (flg)
-            {
-                //case 0:
-                default:
-                    if (!use)
-                    {
-                        cell.Style.ForeColor = Color.Black;
-                        return;
-                    }
-                    break;
-                case 1:
-                    if (use)
-                    {
-                        cell.Style.ForeColor = Color.Black;
-                        return;
-                    }
-                    break;
-                case 2:
-                    break;
-            }
-            string txt = Convert.ToString(cell.Value);
-            if (txt.IndexOf(search, StringComparison.OrdinalIgnoreCase) >= 0)
-            {
-                cell.Style.ForeColor = Color.Red;
-            }
-            else
-            {
-                cell.Style.ForeColor = Color.Black;
-            }
-        }
+        //    switch (flg)
+        //    {
+        //        //case 0:
+        //        default:
+        //            if (!use)
+        //            {
+        //                cell.Style.ForeColor = Color.Black;
+        //                return;
+        //            }
+        //            break;
+        //        case 1:
+        //            if (use)
+        //            {
+        //                cell.Style.ForeColor = Color.Black;
+        //                return;
+        //            }
+        //            break;
+        //        case 2:
+        //            break;
+        //    }
+        //    string txt = Convert.ToString(cell.Value);
+        //    if (txt.IndexOf(search, StringComparison.OrdinalIgnoreCase) >= 0)
+        //    {
+        //        cell.Style.ForeColor = Color.Red;
+        //    }
+        //    else
+        //    {
+        //        cell.Style.ForeColor = Color.Black;
+        //    }
+        //}
 
         /// <summary>
         /// 设置行为粗体或非粗体
@@ -1627,20 +1613,6 @@ namespace Beinet.cn.HostsManager
                 if (i > COL_DESC)// 只对COL_DESC列以前的数据加精
                     break;
             }
-        }
-
-        /// <summary>
-        /// 设置行高
-        /// </summary>
-        /// <param name="dataGridViewRow"></param>
-        /// <param name="addLine"></param>
-        private void SetHeight(DataGridViewRow dataGridViewRow, bool addLine)
-        {
-
-            //if (addLine)
-            //    dataGridViewRow.Height += 20;
-            //else
-            //    dataGridViewRow.Height -= 20;
         }
 
         /// <summary>

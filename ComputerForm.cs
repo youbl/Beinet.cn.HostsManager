@@ -53,6 +53,19 @@ namespace Beinet.cn.HostsManager
             textBox1.Text = sb.ToString();
         }
 
+        protected override void OnLoad(EventArgs e)
+        {
+            base.OnLoad(e);
+
+            if (Owner != null)
+            {
+                Left = Owner.Left + 20;
+                Top = Owner.Top + 20;
+                if (Top < 0)
+                    Top = 0;
+            }
+        }
+
         private void btnCanel_Click(object sender, EventArgs e)
         {
             Close();
