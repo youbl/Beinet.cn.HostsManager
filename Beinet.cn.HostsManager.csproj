@@ -142,6 +142,7 @@
     <Compile Include="ComputerForm.Designer.cs">
       <DependentUpon>ComputerForm.cs</DependentUpon>
     </Compile>
+    <None Include="README.md" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="bug_yellow.ico" />

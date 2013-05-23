@@ -206,11 +206,16 @@ namespace Beinet.cn.HostsManager
         public static void SaveHosts(string name, List<HostItem> arr)
         {
             string realName = GetFileName(name);
-            if (File.Exists(realName) && 
-                ((File.GetAttributes(realName) & FileAttributes.ReadOnly) == FileAttributes.ReadOnly ||
-                (File.GetAttributes(realName) & FileAttributes.Hidden) == FileAttributes.Hidden))
+            if (File.Exists(realName))
             {
-                File.SetAttributes(realName, FileAttributes.Archive);
+                // 文件是只读或隐藏时，修改它的属性
+                FileAttributes att = File.GetAttributes(realName);
+                if ((att & FileAttributes.ReadOnly) == FileAttributes.ReadOnly ||
+                    (att & FileAttributes.Hidden) == FileAttributes.Hidden ||
+                    (att & FileAttributes.System) == FileAttributes.System)
+                {
+                    File.SetAttributes(realName, FileAttributes.Archive);
+                }
             }
             using (StreamWriter sw = new StreamWriter(realName, false, Encode))
             {
