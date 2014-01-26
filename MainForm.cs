@@ -1610,7 +1610,7 @@ namespace Beinet.cn.HostsManager
             {
                 cell.Style.Font = new Font(f, isBold ? FontStyle.Bold : FontStyle.Regular);
                 i++;
-                if (i > COL_DESC)// 只对COL_DESC列以前的数据加精
+                if (i > COL_DESC)// 只对COL_DESC列以前的数据加粗
                     break;
             }
         }
@@ -1644,17 +1644,20 @@ namespace Beinet.cn.HostsManager
             //this.BringToFront(); 
         }
 
+
+
         private void dataGridView1_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
         {
             var dgv = (DataGridView)sender;
-            for (int i = 0; i < e.RowCount; i++)
+            //for (int i = 0; i < e.RowCount; i++)
+            //{
+            //    dgv.Rows[e.RowIndex + i].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleRight;
+            //    dgv.Rows[e.RowIndex + i].HeaderCell.Value = (e.RowIndex + i + 1).ToString();
+            //}
+            //for (int i = e.RowIndex + e.RowCount; i < dgv.Rows.Count; i++)
+            for (int i = 0; i < dgv.Rows.Count; i++)
             {
-                dgv.Rows[e.RowIndex + i].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleRight;
-                dgv.Rows[e.RowIndex + i].HeaderCell.Value = (e.RowIndex + i + 1).ToString();
-            }
-            for (int i = e.RowIndex + e.RowCount; i < dgv.Rows.Count; i++)
-            {
-                dgv.Rows[i].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleRight;
+                //dgv.Rows[i].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleRight;
                 dgv.Rows[i].HeaderCell.Value = (i + 1).ToString();
             }
         }
@@ -1662,17 +1665,17 @@ namespace Beinet.cn.HostsManager
         private void dataGridView1_RowsRemoved(object sender, DataGridViewRowsRemovedEventArgs e)
         {
             var dgv = (DataGridView)sender;
-            for (int i = 0; i < e.RowCount && i < dgv.Rows.Count; i++)
+            //for (int i = 0; i < e.RowCount && i < dgv.Rows.Count; i++)
+            //{
+            //    dgv.Rows[e.RowIndex + i].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleRight;
+            //    dgv.Rows[e.RowIndex + i].HeaderCell.Value = (e.RowIndex + i + 1).ToString();
+            //}
+            //for (int i = e.RowIndex + e.RowCount; i < dgv.Rows.Count; i++)
+            for (int i = 0; i < dgv.Rows.Count; i++)
             {
-                dgv.Rows[e.RowIndex + i].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleRight;
-                dgv.Rows[e.RowIndex + i].HeaderCell.Value = (e.RowIndex + i + 1).ToString();
-            }
-            for (int i = e.RowIndex + e.RowCount; i < dgv.Rows.Count; i++)
-            {
-                dgv.Rows[i].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleRight;
+                //dgv.Rows[i].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleRight;
                 dgv.Rows[i].HeaderCell.Value = (i + 1).ToString();
             }
         }
-
     }
 }
