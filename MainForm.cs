@@ -741,11 +741,20 @@ namespace Beinet.cn.HostsManager
         /// <param name="e"></param>
         private void SaveToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            // 备份搜索条件
+            string search = txtFindStripTextBox1.Text;
+
             List<HostItem> save = GetGridHost();
             if (save == null)
                 return;
+            
             HostsDal.SaveHosts(string.Empty, save);
             BindHosts(string.Empty);
+
+            // 恢复搜索
+            txtFindStripTextBox1.Text = search;
+            txtFindStripTextBox1_KeyUp(null, null);
+            
             ShowMsg("应用成功");
         }
 
