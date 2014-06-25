@@ -159,10 +159,10 @@ namespace Beinet.cn.HostsManager
                                 retCompare = -x.IsUsing.CompareTo(y.IsUsing);
                                 if (retCompare == 0)
                                 {
-                                    retCompare = x.IP.CompareTo(y.IP);
+                                    retCompare = String.Compare(x.IP, y.IP, StringComparison.Ordinal);
                                     if (retCompare == 0)
                                     {
-                                        retCompare = x.Name.CompareTo(y.Name);
+                                        retCompare = String.Compare(x.Name, y.Name, StringComparison.Ordinal);
                                     }
                                     else if (x.IP.StartsWith("127")) // 127的排前面
                                         retCompare = -1;
@@ -189,9 +189,13 @@ namespace Beinet.cn.HostsManager
             List<string> ret = new List<string>();
             foreach (string s in Directory.GetFiles(dir, "hosts.*"))
             {
-                string ext = Path.GetFileName(s).Substring(5);//Path.GetExtension(s);)
-                if (!string.IsNullOrEmpty(ext) && ext.Length > 1)
-                    ret.Add(ext.Substring(1));// 去掉第一个点
+                var fileName = Path.GetFileName(s);
+                if (fileName != null && fileName.Length > 5)
+                {
+                    string ext = fileName.Substring(5);//Path.GetExtension(s);)
+                    if (!string.IsNullOrEmpty(ext) && ext.Length > 1)
+                        ret.Add(ext.Substring(1));// 去掉第一个点
+                }
             }
             return ret;
         }
