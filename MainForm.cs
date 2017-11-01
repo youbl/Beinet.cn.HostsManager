@@ -32,7 +32,12 @@ namespace Beinet.cn.HostsManager
         /// <summary>
         /// 版本号
         /// </summary>
-        public const string version = "2.0";
+        public const string version = "2.1";
+
+        /// <summary>
+        /// 快速切换的tag标识
+        /// </summary>
+        private const string QUICK_STR = "quick";
 
         // 总列数
         private const int COLNUM = 11;
@@ -98,8 +103,8 @@ namespace Beinet.cn.HostsManager
             //dataGridView1.ClipboardCopyMode = DataGridViewClipboardCopyMode.EnableAlwaysIncludeHeaderText;
 
             // 设置protected属性，此属性指示此控件是否应使用辅助缓冲区重绘其图面，以 减少或避免闪烁（CellMouseEnter里修改背景色会导致闪烁）
-            typeof(DataGridView).GetProperty("DoubleBuffered",
-                BindingFlags.Instance | BindingFlags.NonPublic).SetValue(dataGridView1, true, null);
+            typeof(DataGridView).GetProperty("DoubleBuffered", BindingFlags.Instance | BindingFlags.NonPublic)?
+                .SetValue(dataGridView1, true, null);
 
             // 窗口置顶
             if (HostsDal.StartFront)
@@ -246,16 +251,57 @@ namespace Beinet.cn.HostsManager
         /// </summary>
         private void BindHistory()
         {
+            // 先清空前次加载的快捷方式菜单
             LinksToolStripMenuItem.DropDownItems.Clear();
-
-            // 加载保存的历史文件到菜单
-            ToolStripMenuItem history;
-            foreach (string file in HostsDal.GetHostHistory())
+            for (var i = menuStrip1.Items.Count-1; i >= 0; i--)
             {
-                history = new ToolStripMenuItem(file);
-                history.Click += LinkItemStripMenuItem_Click;
-                LinksToolStripMenuItem.DropDownItems.Add(history);
+                var tag = Convert.ToString(menuStrip1.Items[i].Tag);
+                if (tag.StartsWith(QUICK_STR, StringComparison.Ordinal))
+                {
+                    menuStrip1.Items.RemoveAt(i);
+                }
             }
+
+            // 加载保存的历史文件到快捷方式菜单
+            var arrHis = HostsDal.GetHostHistory();
+            var idx = 0;
+            foreach (string file in arrHis)
+            {
+                var shortTxt = CutStr(file);
+                var history = new ToolStripMenuItem(shortTxt);
+                history.ForeColor = Color.Blue;
+                history.Tag = QUICK_STR + file;
+                history.Click += LinkItemStripMenuItem_Click;
+                idx++;
+                if (idx <= 5)
+                {
+                    // 前3个加到主菜单里
+                    // var mainMenu = LinksToolStripMenuItem.GetCurrentParent();
+                    menuStrip1.Items.Add(history);
+                }
+                else
+                {
+                    LinksToolStripMenuItem.DropDownItems.Add(history);
+                }
+            }
+        }
+
+        private string CutStr(string str, int len=10)
+        {
+            if (Encoding.Default.GetByteCount(str) <= len)
+            {
+                return str;
+            }
+            var ret = string.Empty;
+            for (int i = 0; i < str.Length; i++)
+            {
+                ret += str.Substring(i, 1);
+                if (Encoding.Default.GetByteCount(ret) >= len)
+                {
+                    return ret;
+                }
+            }
+            return ret;
         }
 
         /// <summary>
@@ -284,10 +330,10 @@ namespace Beinet.cn.HostsManager
         /// </summary>
         public void BindIpAbout()
         {
-            // 清除快捷行菜单
-            for (int i = mnuIpAbout.DropDownItems.Count - 1; i >= 3; i--)
+            // 清除备份的IP菜单
+            for (int i = ToolsHostsToolStripMenuItem1.DropDownItems.Count - 1; i > 9; i--)
             {
-                mnuIpAbout.DropDownItems.RemoveAt(i);
+                ToolsHostsToolStripMenuItem1.DropDownItems.RemoveAt(i);
             }
 
             List<string> ipsets = IpSetForm.GetIpBack();
@@ -296,7 +342,7 @@ namespace Beinet.cn.HostsManager
             {
                 line = new ToolStripMenuItem(ip);
                 line.Click += IpSetItemStripMenuItem_Click;
-                mnuIpAbout.DropDownItems.Add(line);
+                ToolsHostsToolStripMenuItem1.DropDownItems.Add(line);
             }
         }
 
@@ -389,6 +435,61 @@ namespace Beinet.cn.HostsManager
             if (groupStatus.Length > 0)
                 save.Add(new HostItem("1.1.1.1", "group", groupStatus.ToString(), false, 0));
             return save;
+        }
+
+        private void dataGridView1_CellValidating(object sender, DataGridViewCellValidatingEventArgs e)
+        {
+            // 此时验证下面2行代码不生效
+            // var ipcell = (DataGridViewComboBoxCell)dataGridView1.Rows[e.RowIndex].Cells[COL_IP];
+            // ipcell.Items.Remove(val);
+        }
+
+        private void dataGridView1_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+        //    DataGridViewRow row = dataGridView1.Rows[e.RowIndex];
+        //    var val = Convert.ToString(row.Cells[e.ColumnIndex].Value).Trim();
+        //    if (val == string.Empty)
+        //    {
+        //        return;
+        //    }
+        //    switch (e.ColumnIndex)
+        //    {
+        //        case COL_IP:
+        //            if (!HostsDal.RegIp.IsMatch(val))
+        //            {
+        //                //MessageBox.Show("ip:" + val + " 配置错误");
+        //                //e.Cancel = true;
+        //                //dataGridView1.CancelEdit();
+        //                // dataGridView1.Focus();
+        //                // dataGridView1.CurrentCell = dataGridView1[e.ColumnIndex, e.RowIndex];
+        //                // dataGridView1.BeginEdit(true);
+
+        //                var ipcell = (DataGridViewComboBoxCell)dataGridView1.Rows[e.RowIndex].Cells[COL_IP];
+        //                // ipcell.Items.Remove(val); remove居然不生效，只好用下面的土方法
+        //                var arr = new List<string>();
+        //                foreach (var ip in ipcell.Items)
+        //                {
+        //                    var strip = Convert.ToString(ip);
+        //                    if (strip != val)
+        //                    {
+        //                        arr.Add(strip);
+        //                    }
+        //                }
+        //                ipcell.Items.Clear();
+        //                ipcell.Items.AddRange(arr);
+        //            }
+        //            return;
+        //    }
+        }
+
+        /// <summary>
+        /// 单元格内容变更时
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void dataGridView1_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            isValueChanged = true;
         }
 
         /// <summary>
@@ -653,17 +754,7 @@ namespace Beinet.cn.HostsManager
                 row.Cells[colIndex].Value = selected;
             }
         }
-
-        /// <summary>
-        /// 单元格内容变更时
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void dataGridView1_CellValueChanged(object sender, DataGridViewCellEventArgs e)
-        {
-            isValueChanged = true;
-        }
-
+        
         private void dataGridView1_Sorted(object sender, EventArgs e)
         {
             isValueChanged = true;
@@ -817,7 +908,7 @@ namespace Beinet.cn.HostsManager
         /// <param name="e"></param>
         private void LinkItemStripMenuItem_Click(object sender, EventArgs e)
         {
-            string ext = ((ToolStripMenuItem)sender).Text;
+            string ext = ((ToolStripMenuItem)sender).Tag.ToString().Substring(QUICK_STR.Length);
             if (!File.Exists(HostsDal.GetFileName(ext)))
             {
                 ShowMsg("快捷方式不存在");
@@ -836,11 +927,11 @@ namespace Beinet.cn.HostsManager
                 {
                     File.Copy(HostsDal.GetFileName(ext), HostsDal.HostsPath, true);
                     copyed = true;
-                    ShowMsg("应用成功");
+                    ShowMsg(ext + " 切换成功");
                 }
                 else
                 {
-                    ShowMsg("加载成功，未应用到hosts");
+                    ShowMsg(ext + " 加载成功，未应用到hosts");
                 }
                 BindHosts(ext);
                 isValueChanged = !copyed;
@@ -1088,7 +1179,7 @@ namespace Beinet.cn.HostsManager
         private void mnuTopMost_Click(object sender, EventArgs e)
         {
             TopMost = !TopMost;
-            mnuTopMost.Text = TopMost ? "取消窗口最前" : "保持窗口最前";
+            mnuTopMost.Text = TopMost ? "取消最前" : "保持最前";
         }
 
         #region 让显示器黑屏
@@ -1141,99 +1232,6 @@ namespace Beinet.cn.HostsManager
             ShowMsg("操作成功");
         }
 
-        /// <summary>
-        /// 修改注册表，修正IE8新建选项卡时报“找不到元素”的js错误
-        /// 1.打开注册表编辑器：REGEDIT.
-        /// 2.找到HKEY_CLASSES_ROOT\TypeLib\{EAB22AC0-30C1-11CF-A7EB-0000C05BAE0B}\1.1\0\win32
-        /// 3.点击：默认。如果其值为："C:\WINDOWS\system32\shdocvw.dll"将shdocvm.dll修改为：ieframe.dll
-        /// 4.重启IE 即可。
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void IE8JsErrFixToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            RegistryKey root;
-            RegistryKey regDir;
-            string dir = @"SOFTWARE\Microsoft\Internet Explorer";
-            using (root = Registry.LocalMachine)
-            using (regDir = root.OpenSubKey(dir))
-            {
-                string ieVersion = string.Empty;
-                if (regDir != null)
-                {
-                    ieVersion = Convert.ToString(regDir.GetValue("Version"));
-                }
-                if (string.IsNullOrEmpty(ieVersion))
-                {
-                    ShowMsg("操作失败,未查找到IE版本号");
-                    return;
-                }
-                if (!ieVersion.StartsWith("8."))
-                {
-                    ShowMsg("操作失败,仅支持IE8\r\n您的IE版本:" + ieVersion);
-                    return;
-                }
-            }
-
-            dir = @"TypeLib\{EAB22AC0-30C1-11CF-A7EB-0000C05BAE0B}\1.1\0\win32";
-            using (root = Registry.ClassesRoot)
-            using (regDir = root.OpenSubKey(dir, true))
-            {
-                if (regDir == null)
-                {
-                    root.CreateSubKey(dir);
-                    regDir = root.OpenSubKey(dir, true);
-                    if (regDir == null)
-                        return;
-                }
-                // 修改默认键值
-                regDir.SetValue("",
-                    Path.Combine(Environment.SystemDirectory, @"ieframe.dll"), //C:\WINDOWS\system32\
-                    RegistryValueKind.String);
-                regDir.Close();
-            }
-            ShowMsg("操作成功,请重启IE8");
-        }
-
-        /// <summary>
-        /// 为VisualStudio2008添加代码分隔线
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void AddLineForVisualStudio2008ToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            string defaultTxt = "RGB(255,0,0) 80, 120";
-            defaultTxt = Microsoft.VisualBasic.Interaction.InputBox(
-    "RGB括号里表示分隔线的RGB颜色\r\n括号后面以逗号分隔的数字，表示要添加的分隔线位置\r\n比如默认是第80列和第120列添加红色分隔线\r\n\r\n输入空白或点击取消表示删除", "请输入分隔线颜色、位置等信息", defaultTxt, 100, 100);
-            //if (!Regex.IsMatch(defaultTxt, @"^RGB\(\d+,\d+,\d+\) *\d+(, *\d+)*$", RegexOptions.IgnoreCase))
-            //{
-            //    ShowMsg("无效的输入");
-            //    return;
-            //}
-
-            RegistryKey root;
-            RegistryKey regDir;
-            string dir = @"Software\Microsoft\VisualStudio\9.0\Text Editor";
-            using (root = Registry.CurrentUser)
-            using (regDir = root.OpenSubKey(dir, true))
-            {
-                if (regDir == null)
-                {
-                    ShowMsg("操作失败,未找到VisualStudio2008");
-                    return;
-                }
-                if (string.IsNullOrEmpty(defaultTxt))
-                {
-                    regDir.DeleteValue("Guides", false);
-                    ShowMsg("配置删除成功");
-                }
-                else
-                {
-                    regDir.SetValue("Guides", defaultTxt, RegistryValueKind.String);
-                    ShowMsg("配置成功，请重新打开VS2008");
-                }
-            }
-        }
         #endregion
 
 
@@ -1493,7 +1491,7 @@ namespace Beinet.cn.HostsManager
         }
 
 
-        void CheckUpdate()
+        private void CheckUpdate()
         {
             string url = "http://beinet.cn/update.ashx?f=1";
             string param = "s=hostsmanager&v=1.0";
@@ -1536,6 +1534,7 @@ namespace Beinet.cn.HostsManager
             {
                 string ret;
                 using (Stream stream = response.GetResponseStream())
+                    // ReSharper disable once AssignNullToNotNullAttribute
                 using (StreamReader sr = new StreamReader(stream))
                 {
                     ret = sr.ReadToEnd();
@@ -1686,5 +1685,6 @@ namespace Beinet.cn.HostsManager
                 dgv.Rows[i].HeaderCell.Value = (i + 1).ToString();
             }
         }
+
     }
 }

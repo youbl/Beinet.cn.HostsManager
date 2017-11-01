@@ -67,6 +67,12 @@ namespace Beinet.cn.HostsManager
         ///// </summary>
         //public static readonly Regex RegItemComment =
         //    new Regex(@"^\s*#\s*(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})\s+([^\s]+)\s*#?(.*)$", RegexOptions.Compiled);
+        
+            /// <summary>
+        /// 匹配IP的正则
+        /// </summary>
+        public static readonly Regex RegIp =
+            new Regex(@"^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$", RegexOptions.Compiled);
 
         /// <summary>
         /// 匹配被注释的Hosts记录的正则
@@ -309,7 +315,7 @@ namespace Beinet.cn.HostsManager
                         return (en.InnerText == "1");
                     }
                 }
-                return false;
+                return true;
             }
         }
 
@@ -498,7 +504,7 @@ namespace Beinet.cn.HostsManager
             {
                 //return null;
                 // 配置文件不存在，创建一个
-                SaveConfig("GB2312", "0", "1", "1", "0", 2, "1", "8.8.8.8", "202.106.0.20");
+                SaveConfig("GB2312", "1", "1", "1", "0", 2, "1", "8.8.8.8", "202.106.0.20");
             }
 
             XmlDocument l_xml = new XmlDocument();

@@ -67,6 +67,16 @@ namespace Beinet.cn.HostsManager
             string value = currentBox.Text.Trim();
             if (value == string.Empty) 
                 return;
+            if (!HostsDal.RegIp.IsMatch(value))
+            {
+                // 目前仅ip列在用，所以这里强加了，在外面用不生效
+                // var ipcell = (DataGridViewComboBoxCell)dataGridView1.Rows[e.RowIndex].Cells[COL_IP];
+                // ipcell.Items.Remove(val);
+                MessageBox.Show("ip:" + value + " 配置错误");
+                e.Cancel = true;
+                return;
+            }
+
 
             DataGridView grid = currentBox.EditingControlDataGridView;
 

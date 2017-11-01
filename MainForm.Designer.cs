@@ -70,7 +70,6 @@ namespace Beinet.cn.HostsManager
             this.SaveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ConfigToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ExitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.LinksToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.HelpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ChkUpdateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.AboutHostsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -78,13 +77,13 @@ namespace Beinet.cn.HostsManager
             this.OpenAppDirToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.OpenSysDirToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.EditHostsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.aaaToolStripMenuItem = new System.Windows.Forms.ToolStripSeparator();
             this.EditRegToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.IE8JsErrFixToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.AddLineForVisualStudio2008ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
             this.CloseScreenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ShowComputerInfoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.aaaToolStripMenuItem = new System.Windows.Forms.ToolStripSeparator();
+            this.mnuOpenNetworkAttr = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuOpenIpSet = new System.Windows.Forms.ToolStripMenuItem();
             this.lnkLineToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
             this.lnkLineConfigToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -92,11 +91,8 @@ namespace Beinet.cn.HostsManager
             this.reloadhostsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.SaveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.txtFindStripTextBox1 = new System.Windows.Forms.ToolStripTextBox();
-            this.mnuIpAbout = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuOpenNetworkAttr = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuOpenIpSet = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
             this.mnuTopMost = new System.Windows.Forms.ToolStripMenuItem();
+            this.LinksToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.labTitle = new System.Windows.Forms.Label();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.dataGridViewComboEditBoxColumn1 = new Beinet.cn.HostsManager.DataGridViewComboEditBoxColumn();
@@ -136,8 +132,10 @@ namespace Beinet.cn.HostsManager
             this.dataGridView1.Size = new System.Drawing.Size(1055, 695);
             this.dataGridView1.TabIndex = 0;
             this.dataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellClick);
+            this.dataGridView1.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellEndEdit);
             this.dataGridView1.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView1_CellMouseDown);
             this.dataGridView1.CellMouseEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellMouseEnter);
+            this.dataGridView1.CellValidating += new System.Windows.Forms.DataGridViewCellValidatingEventHandler(this.dataGridView1_CellValidating);
             this.dataGridView1.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellValueChanged);
             this.dataGridView1.CurrentCellDirtyStateChanged += new System.EventHandler(this.dataGridView1_CurrentCellDirtyStateChanged);
             this.dataGridView1.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.dataGridView1_RowsAdded);
@@ -388,7 +386,6 @@ namespace Beinet.cn.HostsManager
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.FileToolStripMenuItem,
-            this.LinksToolStripMenuItem,
             this.HelpToolStripMenuItem,
             this.ToolsHostsToolStripMenuItem1,
             this.lnkLineToolStripMenuItem,
@@ -396,8 +393,8 @@ namespace Beinet.cn.HostsManager
             this.reloadhostsToolStripMenuItem,
             this.SaveToolStripMenuItem,
             this.txtFindStripTextBox1,
-            this.mnuIpAbout,
-            this.mnuTopMost});
+            this.mnuTopMost,
+            this.LinksToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
@@ -419,37 +416,31 @@ namespace Beinet.cn.HostsManager
             // SaveHistoryToolStripMenuItem
             // 
             this.SaveHistoryToolStripMenuItem.Name = "SaveHistoryToolStripMenuItem";
-            this.SaveHistoryToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
-            this.SaveHistoryToolStripMenuItem.Text = "保存 请输入快捷方式名";
+            this.SaveHistoryToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
+            this.SaveHistoryToolStripMenuItem.Text = "存入 ";
             this.SaveHistoryToolStripMenuItem.Visible = false;
             this.SaveHistoryToolStripMenuItem.Click += new System.EventHandler(this.SaveHistoryToolStripMenuItem_Click);
             // 
             // SaveAsToolStripMenuItem
             // 
             this.SaveAsToolStripMenuItem.Name = "SaveAsToolStripMenuItem";
-            this.SaveAsToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
-            this.SaveAsToolStripMenuItem.Text = "另存为快捷方式...";
+            this.SaveAsToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
+            this.SaveAsToolStripMenuItem.Text = "存入快速切换...";
             this.SaveAsToolStripMenuItem.Click += new System.EventHandler(this.SaveAsToolStripMenuItem_Click);
             // 
             // ConfigToolStripMenuItem
             // 
             this.ConfigToolStripMenuItem.Name = "ConfigToolStripMenuItem";
-            this.ConfigToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
+            this.ConfigToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
             this.ConfigToolStripMenuItem.Text = "配置...";
             this.ConfigToolStripMenuItem.Click += new System.EventHandler(this.ConfigToolStripMenuItem_Click);
             // 
             // ExitToolStripMenuItem
             // 
             this.ExitToolStripMenuItem.Name = "ExitToolStripMenuItem";
-            this.ExitToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
+            this.ExitToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
             this.ExitToolStripMenuItem.Text = "退出";
             this.ExitToolStripMenuItem.Click += new System.EventHandler(this.ExitToolStripMenuItem_Click);
-            // 
-            // LinksToolStripMenuItem
-            // 
-            this.LinksToolStripMenuItem.Name = "LinksToolStripMenuItem";
-            this.LinksToolStripMenuItem.Size = new System.Drawing.Size(74, 23);
-            this.LinksToolStripMenuItem.Text = "快捷方式..";
             // 
             // HelpToolStripMenuItem
             // 
@@ -483,13 +474,13 @@ namespace Beinet.cn.HostsManager
             this.OpenAppDirToolStripMenuItem,
             this.OpenSysDirToolStripMenuItem,
             this.EditHostsToolStripMenuItem,
-            this.aaaToolStripMenuItem,
             this.EditRegToolStripMenuItem,
-            this.IE8JsErrFixToolStripMenuItem,
-            this.AddLineForVisualStudio2008ToolStripMenuItem,
             this.toolStripSeparator7,
             this.CloseScreenToolStripMenuItem,
-            this.ShowComputerInfoToolStripMenuItem});
+            this.ShowComputerInfoToolStripMenuItem,
+            this.aaaToolStripMenuItem,
+            this.mnuOpenNetworkAttr,
+            this.mnuOpenIpSet});
             this.ToolsHostsToolStripMenuItem1.Name = "ToolsHostsToolStripMenuItem1";
             this.ToolsHostsToolStripMenuItem1.Size = new System.Drawing.Size(50, 23);
             this.ToolsHostsToolStripMenuItem1.Text = "工具..";
@@ -498,7 +489,7 @@ namespace Beinet.cn.HostsManager
             // 
             this.OpenAppDirToolStripMenuItem.Name = "OpenAppDirToolStripMenuItem";
             this.OpenAppDirToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.P)));
-            this.OpenAppDirToolStripMenuItem.Size = new System.Drawing.Size(331, 22);
+            this.OpenAppDirToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
             this.OpenAppDirToolStripMenuItem.Text = "打开程序目录";
             this.OpenAppDirToolStripMenuItem.Click += new System.EventHandler(this.OpenAppDirToolStripMenuItem_Click);
             // 
@@ -506,7 +497,7 @@ namespace Beinet.cn.HostsManager
             // 
             this.OpenSysDirToolStripMenuItem.Name = "OpenSysDirToolStripMenuItem";
             this.OpenSysDirToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.A)));
-            this.OpenSysDirToolStripMenuItem.Size = new System.Drawing.Size(331, 22);
+            this.OpenSysDirToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
             this.OpenSysDirToolStripMenuItem.Text = "打开Hosts所在目录";
             this.OpenSysDirToolStripMenuItem.Click += new System.EventHandler(this.OpenSysDirToolStripMenuItem_Click);
             // 
@@ -514,55 +505,55 @@ namespace Beinet.cn.HostsManager
             // 
             this.EditHostsToolStripMenuItem.Name = "EditHostsToolStripMenuItem";
             this.EditHostsToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.S)));
-            this.EditHostsToolStripMenuItem.Size = new System.Drawing.Size(331, 22);
+            this.EditHostsToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
             this.EditHostsToolStripMenuItem.Text = "记事本打开Hosts";
             this.EditHostsToolStripMenuItem.Click += new System.EventHandler(this.EditHostsToolStripMenuItem_Click);
-            // 
-            // aaaToolStripMenuItem
-            // 
-            this.aaaToolStripMenuItem.Name = "aaaToolStripMenuItem";
-            this.aaaToolStripMenuItem.Size = new System.Drawing.Size(328, 6);
             // 
             // EditRegToolStripMenuItem
             // 
             this.EditRegToolStripMenuItem.Name = "EditRegToolStripMenuItem";
-            this.EditRegToolStripMenuItem.Size = new System.Drawing.Size(331, 22);
+            this.EditRegToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
             this.EditRegToolStripMenuItem.Text = "修改注册表使hosts立即生效";
             this.EditRegToolStripMenuItem.Click += new System.EventHandler(this.EditRegToolStripMenuItem_Click);
-            // 
-            // IE8JsErrFixToolStripMenuItem
-            // 
-            this.IE8JsErrFixToolStripMenuItem.Name = "IE8JsErrFixToolStripMenuItem";
-            this.IE8JsErrFixToolStripMenuItem.Size = new System.Drawing.Size(331, 22);
-            this.IE8JsErrFixToolStripMenuItem.Text = "修改注册表修正IE8新建选项卡报js错误问题";
-            this.IE8JsErrFixToolStripMenuItem.Click += new System.EventHandler(this.IE8JsErrFixToolStripMenuItem_Click);
-            // 
-            // AddLineForVisualStudio2008ToolStripMenuItem
-            // 
-            this.AddLineForVisualStudio2008ToolStripMenuItem.Name = "AddLineForVisualStudio2008ToolStripMenuItem";
-            this.AddLineForVisualStudio2008ToolStripMenuItem.Size = new System.Drawing.Size(331, 22);
-            this.AddLineForVisualStudio2008ToolStripMenuItem.Text = "修改注册表为VisualStudio2008添加代码分隔线";
-            this.AddLineForVisualStudio2008ToolStripMenuItem.Click += new System.EventHandler(this.AddLineForVisualStudio2008ToolStripMenuItem_Click);
             // 
             // toolStripSeparator7
             // 
             this.toolStripSeparator7.Name = "toolStripSeparator7";
-            this.toolStripSeparator7.Size = new System.Drawing.Size(328, 6);
+            this.toolStripSeparator7.Size = new System.Drawing.Size(232, 6);
             // 
             // CloseScreenToolStripMenuItem
             // 
             this.CloseScreenToolStripMenuItem.Name = "CloseScreenToolStripMenuItem";
             this.CloseScreenToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.Z)));
-            this.CloseScreenToolStripMenuItem.Size = new System.Drawing.Size(331, 22);
+            this.CloseScreenToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
             this.CloseScreenToolStripMenuItem.Text = "显示器黑屏（午休用）";
             this.CloseScreenToolStripMenuItem.Click += new System.EventHandler(this.CloseScreenToolStripMenuItem_Click);
             // 
             // ShowComputerInfoToolStripMenuItem
             // 
             this.ShowComputerInfoToolStripMenuItem.Name = "ShowComputerInfoToolStripMenuItem";
-            this.ShowComputerInfoToolStripMenuItem.Size = new System.Drawing.Size(331, 22);
+            this.ShowComputerInfoToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
             this.ShowComputerInfoToolStripMenuItem.Text = "显示计算机信息";
             this.ShowComputerInfoToolStripMenuItem.Click += new System.EventHandler(this.ShowComputerInfoToolStripMenuItem_Click);
+            // 
+            // aaaToolStripMenuItem
+            // 
+            this.aaaToolStripMenuItem.Name = "aaaToolStripMenuItem";
+            this.aaaToolStripMenuItem.Size = new System.Drawing.Size(232, 6);
+            // 
+            // mnuOpenNetworkAttr
+            // 
+            this.mnuOpenNetworkAttr.Name = "mnuOpenNetworkAttr";
+            this.mnuOpenNetworkAttr.Size = new System.Drawing.Size(235, 22);
+            this.mnuOpenNetworkAttr.Text = "打开网络连接窗口";
+            this.mnuOpenNetworkAttr.Click += new System.EventHandler(this.mnuOpenNetworkAttr_Click);
+            // 
+            // mnuOpenIpSet
+            // 
+            this.mnuOpenIpSet.Name = "mnuOpenIpSet";
+            this.mnuOpenIpSet.Size = new System.Drawing.Size(235, 22);
+            this.mnuOpenIpSet.Text = "IP设置";
+            this.mnuOpenIpSet.Click += new System.EventHandler(this.mnuOpenIpSet_Click);
             // 
             // lnkLineToolStripMenuItem
             // 
@@ -595,15 +586,15 @@ namespace Beinet.cn.HostsManager
             // reloadhostsToolStripMenuItem
             // 
             this.reloadhostsToolStripMenuItem.Name = "reloadhostsToolStripMenuItem";
-            this.reloadhostsToolStripMenuItem.Size = new System.Drawing.Size(99, 23);
-            this.reloadhostsToolStripMenuItem.Text = "重新加载hosts";
+            this.reloadhostsToolStripMenuItem.Size = new System.Drawing.Size(68, 23);
+            this.reloadhostsToolStripMenuItem.Text = "重新加载";
             this.reloadhostsToolStripMenuItem.Click += new System.EventHandler(this.reloadhostsToolStripMenuItem_Click);
             // 
             // SaveToolStripMenuItem
             // 
             this.SaveToolStripMenuItem.Name = "SaveToolStripMenuItem";
-            this.SaveToolStripMenuItem.Size = new System.Drawing.Size(108, 23);
-            this.SaveToolStripMenuItem.Text = "立即保存 Ctrl+S";
+            this.SaveToolStripMenuItem.Size = new System.Drawing.Size(85, 23);
+            this.SaveToolStripMenuItem.Text = "保存-Ctrl+S";
             this.SaveToolStripMenuItem.Click += new System.EventHandler(this.SaveToolStripMenuItem_Click);
             // 
             // txtFindStripTextBox1
@@ -615,46 +606,20 @@ namespace Beinet.cn.HostsManager
             this.txtFindStripTextBox1.Click += new System.EventHandler(this.txtFindStripTextBox1_Click);
             this.txtFindStripTextBox1.DoubleClick += new System.EventHandler(this.txtFindStripTextBox1_DoubleClick);
             // 
-            // mnuIpAbout
-            // 
-            this.mnuIpAbout.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.mnuIpAbout.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.mnuOpenNetworkAttr,
-            this.mnuOpenIpSet,
-            this.toolStripSeparator8});
-            this.mnuIpAbout.Margin = new System.Windows.Forms.Padding(0, 0, 10, 0);
-            this.mnuIpAbout.Name = "mnuIpAbout";
-            this.mnuIpAbout.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.H)));
-            this.mnuIpAbout.Size = new System.Drawing.Size(61, 23);
-            this.mnuIpAbout.Text = "IP工具..";
-            // 
-            // mnuOpenNetworkAttr
-            // 
-            this.mnuOpenNetworkAttr.Name = "mnuOpenNetworkAttr";
-            this.mnuOpenNetworkAttr.Size = new System.Drawing.Size(172, 22);
-            this.mnuOpenNetworkAttr.Text = "打开网络连接窗口";
-            this.mnuOpenNetworkAttr.Click += new System.EventHandler(this.mnuOpenNetworkAttr_Click);
-            // 
-            // mnuOpenIpSet
-            // 
-            this.mnuOpenIpSet.Name = "mnuOpenIpSet";
-            this.mnuOpenIpSet.Size = new System.Drawing.Size(172, 22);
-            this.mnuOpenIpSet.Text = "IP设置";
-            this.mnuOpenIpSet.Click += new System.EventHandler(this.mnuOpenIpSet_Click);
-            // 
-            // toolStripSeparator8
-            // 
-            this.toolStripSeparator8.Name = "toolStripSeparator8";
-            this.toolStripSeparator8.Size = new System.Drawing.Size(169, 6);
-            // 
             // mnuTopMost
             // 
             this.mnuTopMost.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.mnuTopMost.Name = "mnuTopMost";
             this.mnuTopMost.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.H)));
-            this.mnuTopMost.Size = new System.Drawing.Size(92, 23);
-            this.mnuTopMost.Text = "保持窗口最前";
+            this.mnuTopMost.Size = new System.Drawing.Size(68, 23);
+            this.mnuTopMost.Text = "窗口最前";
             this.mnuTopMost.Click += new System.EventHandler(this.mnuTopMost_Click);
+            // 
+            // LinksToolStripMenuItem
+            // 
+            this.LinksToolStripMenuItem.Name = "LinksToolStripMenuItem";
+            this.LinksToolStripMenuItem.Size = new System.Drawing.Size(74, 23);
+            this.LinksToolStripMenuItem.Text = "快速切换..";
             // 
             // labTitle
             // 
@@ -755,18 +720,12 @@ namespace Beinet.cn.HostsManager
         private System.Windows.Forms.ToolStripMenuItem lnkLineConfigToolStripMenuItem;
         private System.Windows.Forms.Label labTitle;
         private System.Windows.Forms.ToolStripSeparator aaaToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem IE8JsErrFixToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator7;
         private System.Windows.Forms.ToolStripMenuItem CloseScreenToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem ShowComputerInfoToolStripMenuItem;
         private System.Windows.Forms.ToolStripTextBox txtFindStripTextBox1;
-        private System.Windows.Forms.ToolStripMenuItem AddLineForVisualStudio2008ToolStripMenuItem;
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.ToolStripMenuItem mnuTopMost;
-        private ToolStripMenuItem mnuIpAbout;
-        private ToolStripMenuItem mnuOpenNetworkAttr;
-        private ToolStripMenuItem mnuOpenIpSet;
-        private ToolStripSeparator toolStripSeparator8;
         private DataGridViewLinkColumn colCollapse;
         private DataGridViewComboEditBoxColumn colIP;
         private DataGridViewTextBoxColumn colName;
@@ -779,6 +738,8 @@ namespace Beinet.cn.HostsManager
         private DataGridViewLinkColumn colPing;
         private DataGridViewLinkColumn colNslookup;
         private DataGridViewComboEditBoxColumn dataGridViewComboEditBoxColumn1;
+        private ToolStripMenuItem mnuOpenNetworkAttr;
+        private ToolStripMenuItem mnuOpenIpSet;
     }
 }
 
