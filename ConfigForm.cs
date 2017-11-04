@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
@@ -16,7 +12,7 @@ namespace Beinet.cn.HostsManager
             InitializeComponent();
             ShowInTaskbar = false;// 不能放到OnLoad里，会导致窗体消失
             
-            if (HostsDal.Encode == Encoding.UTF8)
+            if (Equals(HostsDal.Encode, Encoding.UTF8))
                 radUTF8.Checked = true;
             if (!HostsDal.LinkQuickUse)
                 radNoQuick.Checked = true;
@@ -78,6 +74,14 @@ namespace Beinet.cn.HostsManager
             HostsDal.SaveConfig(encode, linkQuickUse, addMicroComment, saveComment, saveToSysDir,
                 messageShowSecond, isFront, txtTelecomDns.Text, txtUnicomDns.Text);
             this.Close();
+        }
+
+        private void ConfigForm_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Escape)
+            {
+                this.Close();
+            }
         }
     }
 }

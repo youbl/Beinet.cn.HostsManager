@@ -38,7 +38,7 @@
             // 
             // btnCanel
             // 
-            this.btnCanel.Location = new System.Drawing.Point(239, 333);
+            this.btnCanel.Location = new System.Drawing.Point(288, 375);
             this.btnCanel.Name = "btnCanel";
             this.btnCanel.Size = new System.Drawing.Size(138, 23);
             this.btnCanel.TabIndex = 1;
@@ -60,13 +60,13 @@
             this.labTitle.AutoSize = true;
             this.labTitle.Location = new System.Drawing.Point(98, 9);
             this.labTitle.Name = "labTitle";
-            this.labTitle.Size = new System.Drawing.Size(161, 12);
+            this.labTitle.Size = new System.Drawing.Size(0, 12);
             this.labTitle.TabIndex = 4;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 178);
+            this.label1.Location = new System.Drawing.Point(12, 245);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(221, 12);
             this.label1.TabIndex = 3;
@@ -74,18 +74,18 @@
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(14, 193);
+            this.textBox1.Location = new System.Drawing.Point(14, 260);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
             this.textBox1.ReadOnly = true;
             this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.textBox1.Size = new System.Drawing.Size(475, 127);
+            this.textBox1.Size = new System.Drawing.Size(570, 102);
             this.textBox1.TabIndex = 5;
             this.textBox1.WordWrap = false;
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(47, 333);
+            this.button1.Location = new System.Drawing.Point(96, 375);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(143, 23);
             this.button1.TabIndex = 1;
@@ -97,7 +97,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(501, 368);
+            this.ClientSize = new System.Drawing.Size(596, 412);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.labTitle);
             this.Controls.Add(this.label1);
@@ -105,10 +105,12 @@
             this.Controls.Add(this.button1);
             this.Controls.Add(this.btnCanel);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.KeyPreview = true;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "HelpForm";
             this.Text = "帮助-Beinet.cn";
+            this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.HelpForm_KeyUp);
             this.ResumeLayout(false);
             this.PerformLayout();
 

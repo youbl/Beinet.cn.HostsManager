@@ -22,8 +22,8 @@ namespace Beinet.cn.HostsManager
 192.168.1.123 beinet.cn;192.168.2.234 www.beinet.cn
 多行之间以物理换行分隔，自然换行不算新行
 
-快捷方式与快捷行的区别：
-  快捷方式类似于备份，是清除当前hosts的全部内容，用快捷方式里的内容替换
+快速切换与快捷行的区别：
+  快速切换类似于备份，是清除当前hosts的全部内容，用快速切换文件里的内容替换
   快捷行则只是把行里的内容追加到当前hosts的内容最后，并不修改当前hosts的旧内容";
 
             textBox1.Text = HostsDal.GetQuickLines();

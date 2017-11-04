@@ -307,7 +307,7 @@ namespace Beinet.cn.HostsManager
             this.menuSaveas.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
             | System.Windows.Forms.Keys.S)));
             this.menuSaveas.Size = new System.Drawing.Size(247, 22);
-            this.menuSaveas.Text = "另存为快捷方式...";
+            this.menuSaveas.Text = "另存入快速切换...";
             this.menuSaveas.Click += new System.EventHandler(this.menuSaveas_Click);
             // 
             // toolStripSeparator2
@@ -372,14 +372,14 @@ namespace Beinet.cn.HostsManager
             // 
             this.menuSelectAllUse.Name = "menuSelectAllUse";
             this.menuSelectAllUse.Size = new System.Drawing.Size(247, 22);
-            this.menuSelectAllUse.Text = "选择全部 是否应用";
+            this.menuSelectAllUse.Text = "勾选全部“应用”";
             this.menuSelectAllUse.Click += new System.EventHandler(this.menuSelectAllUse_Click);
             // 
             // menuUnSelectAllUse
             // 
             this.menuUnSelectAllUse.Name = "menuUnSelectAllUse";
             this.menuUnSelectAllUse.Size = new System.Drawing.Size(247, 22);
-            this.menuUnSelectAllUse.Text = "取消全部 是否应用";
+            this.menuUnSelectAllUse.Text = "取消勾选“应用”";
             this.menuUnSelectAllUse.Click += new System.EventHandler(this.menuUnSelectAllUse_Click);
             // 
             // menuStrip1

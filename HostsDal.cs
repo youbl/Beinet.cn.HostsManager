@@ -300,7 +300,7 @@ namespace Beinet.cn.HostsManager
         }
 
         /// <summary>
-        /// 选择快捷方式时，是否立即保存
+        /// 选择快速切换时，是否立即保存
         /// </summary>
         public static bool LinkQuickUse
         {
@@ -360,7 +360,7 @@ namespace Beinet.cn.HostsManager
         }
 
         /// <summary>
-        /// 是否保存快捷方式到系统目录
+        /// 是否保存快速切换到系统目录
         /// </summary>
         public static bool SaveToSysDir
         {

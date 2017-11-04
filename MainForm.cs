@@ -251,7 +251,7 @@ namespace Beinet.cn.HostsManager
         /// </summary>
         private void BindHistory()
         {
-            // 先清空前次加载的快捷方式菜单
+            // 先清空前次加载的快速切换菜单
             LinksToolStripMenuItem.DropDownItems.Clear();
             for (var i = menuStrip1.Items.Count-1; i >= 0; i--)
             {
@@ -262,7 +262,7 @@ namespace Beinet.cn.HostsManager
                 }
             }
 
-            // 加载保存的历史文件到快捷方式菜单
+            // 加载保存的历史文件到快速切换菜单
             var arrHis = HostsDal.GetHostHistory();
             var idx = 0;
             foreach (string file in arrHis)
@@ -275,7 +275,7 @@ namespace Beinet.cn.HostsManager
                 idx++;
                 if (idx <= 5)
                 {
-                    // 前3个加到主菜单里
+                    // 前n个加到主菜单里
                     // var mainMenu = LinksToolStripMenuItem.GetCurrentParent();
                     menuStrip1.Items.Add(history);
                 }
@@ -850,7 +850,7 @@ namespace Beinet.cn.HostsManager
         }
 
         /// <summary>
-        /// 保存到已选择的快捷方式
+        /// 保存到已选择的快速切换
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -865,7 +865,7 @@ namespace Beinet.cn.HostsManager
         }
 
         /// <summary>
-        /// 另存为新快捷方式
+        /// 另存为新快速切换
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -876,18 +876,20 @@ namespace Beinet.cn.HostsManager
             //{
             string defaultTxt = SaveHistoryToolStripMenuItem.Text.Split(' ')[1];
             //}
+            
+            var frm = new InputBox(defaultTxt);
+            var dialogResult = frm.ShowDialog(this);
+            if (dialogResult != DialogResult.OK)
+            {
+                return;
+            }
 
-            // 窗口最前时，会导致InputBox被隐藏
-            var topmost = TopMost;
-            TopMost = false;
-            string name = Microsoft.VisualBasic.Interaction.InputBox(
-                "请输入快捷方式名", "请输入快捷方式名", defaultTxt, 100, 100);
-            TopMost = topmost;
+            string name = frm.Name;// Microsoft.VisualBasic.Interaction.InputBox("请输入快速切换名", "请输入快速切换名", defaultTxt, 100, 100);
             if (!string.IsNullOrEmpty(name))
             {
                 if (File.Exists(HostsDal.GetFileName(name)))
                 {
-                    if (MessageBox.Show("快捷方式文件已存在，是否覆盖？", "文件已存在", MessageBoxButtons.YesNo)
+                    if (MessageBox.Show("快速切换文件名已存在，是否覆盖？", "文件已存在", MessageBoxButtons.YesNo)
                         != DialogResult.Yes)
                     {
                         return;
@@ -902,7 +904,7 @@ namespace Beinet.cn.HostsManager
         }
 
         /// <summary>
-        /// 快捷方式打开
+        /// 快速切换打开
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -911,7 +913,7 @@ namespace Beinet.cn.HostsManager
             string ext = ((ToolStripMenuItem)sender).Tag.ToString().Substring(QUICK_STR.Length);
             if (!File.Exists(HostsDal.GetFileName(ext)))
             {
-                ShowMsg("快捷方式不存在");
+                ShowMsg("快速切换源文件不存在");
                 return;
             }
 
@@ -946,7 +948,7 @@ namespace Beinet.cn.HostsManager
         private void ConfigToolStripMenuItem_Click(object sender, EventArgs e)
         {
             new ConfigForm().ShowDialog(this);
-            // 因为可能修改编码格式和快捷方式保存位置,重新加载
+            // 因为可能修改编码格式和快速切换保存位置,重新加载
             BindHosts(string.Empty);
 
             BindHistory();

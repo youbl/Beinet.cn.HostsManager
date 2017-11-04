@@ -53,10 +53,10 @@
             this.radNoFront = new System.Windows.Forms.RadioButton();
             this.radFront = new System.Windows.Forms.RadioButton();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
+            this.txtUnicomDns = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
             this.txtTelecomDns = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.txtUnicomDns = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -109,7 +109,7 @@
             this.groupBox2.Size = new System.Drawing.Size(276, 47);
             this.groupBox2.TabIndex = 0;
             this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "选择快捷方式时，是否立即应用到hosts";
+            this.groupBox2.Text = "选择快速切换时，是否立即应用到hosts";
             // 
             // radNoQuick
             // 
@@ -228,7 +228,7 @@
             this.groupBox5.Size = new System.Drawing.Size(276, 47);
             this.groupBox5.TabIndex = 0;
             this.groupBox5.TabStop = false;
-            this.groupBox5.Text = "快捷方式保存到的目录";
+            this.groupBox5.Text = "快速切换 保存到的目录";
             // 
             // radSysDir
             // 
@@ -339,6 +339,25 @@
             this.groupBox8.TabStop = false;
             this.groupBox8.Text = "DNS设置";
             // 
+            // txtUnicomDns
+            // 
+            this.txtUnicomDns.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtUnicomDns.Location = new System.Drawing.Point(172, 20);
+            this.txtUnicomDns.Name = "txtUnicomDns";
+            this.txtUnicomDns.Size = new System.Drawing.Size(99, 21);
+            this.txtUnicomDns.TabIndex = 14;
+            this.txtUnicomDns.Text = "202.106.0.20";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(140, 23);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(29, 12);
+            this.label3.TabIndex = 5;
+            this.label3.Text = "网通";
+            // 
             // txtTelecomDns
             // 
             this.txtTelecomDns.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
@@ -358,25 +377,6 @@
             this.label2.TabIndex = 5;
             this.label2.Text = "电信";
             // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(140, 23);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(29, 12);
-            this.label3.TabIndex = 5;
-            this.label3.Text = "网通";
-            // 
-            // txtUnicomDns
-            // 
-            this.txtUnicomDns.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtUnicomDns.Location = new System.Drawing.Point(172, 20);
-            this.txtUnicomDns.Name = "txtUnicomDns";
-            this.txtUnicomDns.Size = new System.Drawing.Size(99, 21);
-            this.txtUnicomDns.TabIndex = 14;
-            this.txtUnicomDns.Text = "202.106.0.20";
-            // 
             // ConfigForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -393,10 +393,12 @@
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.KeyPreview = true;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "ConfigForm";
             this.Text = "配置-beinet.cn";
+            this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.ConfigForm_KeyUp);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
